@@ -48,20 +48,24 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-d
 
 import Users from './user/pages/Users';
 import NewReview from "./reviews/pages/NewReview";
+import MainNavigation from "./shared/components/Navigation/MainNavigation";
 
 function App () {
   return <Router>
-    <Switch>
-    <Route path="/" exact>
-      <Users />
-    </Route>
-    <Route path="/reviews/new" exact>
-      <NewReview />
-    </Route>
-    <Redirect to="/" />
-    </Switch>
+    <MainNavigation />
+    <main>
+      <Switch>
+      <Route path="/" exact>
+        <Users />
+      </Route>
+      <Route path="/reviews/new" exact>
+        <NewReview />
+      </Route>
+      <Redirect to="/" />   
+      </Switch>
+    </main>
   </Router>
-}
+}   //Redirect 2 lines above redirects to base if dud/invalid url is entered
 
 export default App;
 
