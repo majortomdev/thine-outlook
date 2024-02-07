@@ -6,7 +6,7 @@ import UsersList from "../components/UsersList";
 const Users = () => {
 
     const USERS = [
-        {id:'U1', name:'Joey Kinahan', 
+        {id:'U1', name:'Gregor Grumble', 
     image: myPic,
     reviews: 5}
 ];
