@@ -1,7 +1,17 @@
 import React from "react";
 
+import myPic from '../images/IMG_20210921_214347.jpg';
+import UsersList from "../components/UsersList";
+
 const Users = () => {
-    return <h2>Users works</h2>
+
+    const USERS = [
+        {id:'U1', name:'Joey Kinahan', 
+    image: myPic,
+    reviews: 5}
+];
+
+    return <UsersList items={USERS}/>;
 }
 
 export default Users;
