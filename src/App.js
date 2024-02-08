@@ -48,6 +48,7 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-d
 
 import Users from './user/pages/Users';
 import NewReview from "./reviews/pages/NewReview";
+import UserReviews from "./reviews/pages/UserReviews";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 
 function App () {
@@ -57,6 +58,9 @@ function App () {
       <Switch>
       <Route path="/" exact>
         <Users />
+      </Route>
+      <Route path="/:userId/reviews" exact>
+        <UserReviews />
       </Route>
       <Route path="/reviews/new" exact>
         <NewReview />
