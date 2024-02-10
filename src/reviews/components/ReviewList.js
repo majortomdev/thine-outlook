@@ -7,7 +7,7 @@ import './ReviewList.css';
 const ReviewList = props => {
     if (props.items.length ===0) {
         return (
-            <div className="place-list center">
+            <div className="review-list center">
                 <Card>
                     <h2>No reviews here yet. Maybe add one?</h2>
                     <button>Add Review</button>
