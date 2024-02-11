@@ -53,8 +53,13 @@ const NewReview = () => {
     });
     }, []);
 
+    const reviewSubmitHandler = event => {
+        event.preventDefault();
+        console.log(formState.inputs);
+    }
+
     return (
-    <form className="review-form">
+    <form className="review-form" onSubmit={reviewSubmitHandler}>
         <Input 
             id="title"
             element="input"
@@ -70,6 +75,14 @@ const NewReview = () => {
             label="Description" 
             validators= {[VALIDATOR_MINLENGTH(5)]} 
             errorText= "Please enter a valid reviewwww.At least 100 characters"
+            onInput={inputHandler}
+        />
+        <Input 
+            id="information"
+            element="input"
+            label="Information" 
+            validators= {[VALIDATOR_REQUIRE()]} 
+            errorText= "Please enter associated information"
             onInput={inputHandler}
         />
         <Button type="submit" disabled={!formState.isValid}>Add a Review</Button>
