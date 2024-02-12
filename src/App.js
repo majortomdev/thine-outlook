@@ -49,6 +49,7 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-d
 import Users from './user/pages/Users';
 import NewReview from "./reviews/pages/NewReview";
 import UserReviews from "./reviews/pages/UserReviews";
+import UpdateReview from "./reviews/pages/UpdateReview";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 
 function App () {
@@ -64,6 +65,10 @@ function App () {
       </Route>
       <Route path="/reviews/new" exact>
         <NewReview />
+{/* this route would be unreachable if placed below following route: */}
+      </Route>
+      <Route path="/reviews/:reviewId">
+        <UpdateReview />
       </Route>
       <Redirect to="/" />   
       </Switch>

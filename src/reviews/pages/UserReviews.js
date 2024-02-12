@@ -8,7 +8,7 @@ const DUMMY_REVIEWS = [
     {
     id: 'r1',
     title: 'The Wind That Shakes the Barley',
-    description: 'Sed ut perspiciatis unde omnis iste natus',
+    review: 'Sed ut perspiciatis unde omnis iste natus',
     imageUrl: myPic,
     reviewer: 'user1'
 }
@@ -16,7 +16,7 @@ const DUMMY_REVIEWS = [
 {
     id: 'r2',
     title: 'The Wind That Shakes the Barley',
-    description: 'Sed ut perspiciatis unde omnis iste natus',
+    review: 'Sed ut perspiciatis unde omnis iste natus',
     imageUrl: myPic,
     reviewer: 'user2'
 }
