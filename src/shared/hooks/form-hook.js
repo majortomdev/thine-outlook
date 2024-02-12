@@ -19,6 +19,11 @@ const formReducer = (state, action) => {
                 },
                 isValid: formIsValid
             }
+        case 'SET_NEW_INFO':
+            return {
+                inputs: action.inputs,
+                isValid: action.formIsValid
+            }
         default:
             return state;
     }
@@ -38,14 +43,13 @@ export const useForm = (initialInputs, initialFormValidity) => {
     });
 }, []);
 
-return [formState, inputHandler];
-};
-// const form-hook = () => {
-//   return (
-//     <div>
-      
-//     </div>
-//   )
-// }
+const setFormData = useCallback((inputData, formValidity) => {
+    dispatch({
+        type: 'SET_NEW_INFO',
+        inputs: inputData,
+        formIsValid: formValidity
+    });
+}, [])
 
-//export default form-hook
+return [formState, inputHandler, setFormData];
+};

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import Input from '../../shared/components/FormElements/Input';
@@ -27,20 +27,36 @@ const DUMMY_REVIEWS = [
 ];
 
 const UpdateReview = () => {
+    const[isLoading, setIsLoading] = useState(true);
     const reviewId = useParams().reviewId;//..will be no. at end of url
+
+    const [formState, inputHandler, setFormData] = useForm({
+      title: {
+        value: '',
+        isValid: false
+      },
+      review: {
+        value: '',
+        isValid: false
+      }
+    }, false);
 
     const identifiedReview = DUMMY_REVIEWS.find(r => r.id === reviewId);
 
-    const [formState, inputHandler] = useForm({
-      title: {
-        value: identifiedReview.title,
-        isValid: true
-      },
-      review: {
-        value: identifiedReview.review,
-        isValid: true
-      }
-    }, true);
+    useEffect(() => {
+      setFormData({
+        title: {
+          value: identifiedReview.title,
+          isValid: true
+        },
+        review: {
+          value: identifiedReview.review,
+          isValid: true
+        }
+      }, true);
+      setIsLoading(false);
+    }, [setFormData, identifiedReview]);
+
 
     const reviewUpdateSubmitHandler = event => {
         event.preventDefault();
@@ -53,7 +69,14 @@ const UpdateReview = () => {
         </div>
     }
 
-  return (
+    if(isLoading){
+      return (
+        <div className='center'>
+          <h2>.....loading....</h2>
+        </div>
+      )
+    }
+  return ( 
     <form className='review-form' onSubmit={reviewUpdateSubmitHandler}>
       <Input 
       id="title" 
@@ -61,7 +84,7 @@ const UpdateReview = () => {
       type="text" 
       label="Title"
       validators={[VALIDATOR_REQUIRE()]}
-      errorText="Please enter a vaild title."
+      errorText="Please enter a valid title."
       onInput={inputHandler}
       initialValue={formState.inputs.title.value}
       initialIsValid={formState.inputs.title.isValid}
