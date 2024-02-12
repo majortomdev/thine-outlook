@@ -30,7 +30,7 @@ const NewReview = () => {
             id="title"
             element="input"
             type="text" 
-            label="Tittle" 
+            label="Title" 
             validators= {[VALIDATOR_REQUIRE()]} 
             errorText= "Please enter a valid title."
             onInput={inputHandler}
@@ -38,7 +38,7 @@ const NewReview = () => {
         <Input 
             id="review"
             element="textarea"
-            label="Deescription" 
+            label="Review" 
             validators= {[VALIDATOR_MINLENGTH(5)]} 
             errorText= "Please enter a valid reviewwww.At least 100 characters"
             onInput={inputHandler}
@@ -51,7 +51,7 @@ const NewReview = () => {
             errorText= "Please enter associated information"
             onInput={inputHandler}
         />
-        <Button type="submit" disabled={!formState.isValid}>Add a Review</Button>
+        <Button type="submit" disabled={!formState.isValid}>Add new Review</Button>
     </form>
     );
 };

@@ -19,7 +19,7 @@ const DUMMY_REVIEWS = [
 ,
 {
     id: 'r2',
-    title: 'The Wind That Shakes the Barley',
+    title: 'Marley and me',
     review: 'Sed ut perspiciatis unde omnis iste natus',
     imageUrl: myPic,
     reviewer: 'user2'
@@ -44,16 +44,18 @@ const UpdateReview = () => {
     const identifiedReview = DUMMY_REVIEWS.find(r => r.id === reviewId);
 
     useEffect(() => {
-      setFormData({
-        title: {
-          value: identifiedReview.title,
-          isValid: true
-        },
-        review: {
-          value: identifiedReview.review,
-          isValid: true
-        }
-      }, true);
+      if (identifiedReview) {
+        setFormData({
+          title: {
+            value: identifiedReview.title,
+            isValid: true
+          },
+          review: {
+            value: identifiedReview.review,
+            isValid: true
+          }
+        }, true);
+      }
       setIsLoading(false);
     }, [setFormData, identifiedReview]);
 

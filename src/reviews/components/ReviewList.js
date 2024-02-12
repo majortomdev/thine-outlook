@@ -2,6 +2,7 @@ import React from "react";
 
 import Card from "../../shared/components/UIElements/Card";
 import ReviewItem from './ReviewItem';
+import Button from "../../shared/components/FormElements/Button";
 import './ReviewList.css';
 
 const ReviewList = props => {
@@ -10,7 +11,7 @@ const ReviewList = props => {
             <div className="review-list center">
                 <Card>
                     <h2>No reviews here yet. Maybe add one?</h2>
-                    <button>Add Review</button>
+                    <Button to="/reviews/new">Add first Review</Button>
                 </Card>
             </div>
         );
@@ -23,7 +24,7 @@ const ReviewList = props => {
         id={review.id} 
         image={review.imageUrl}
         title={review.title}
-        description={review.description} 
+        review={review.review} 
         reviewerId={review.reviewer}
         />
         ))}
