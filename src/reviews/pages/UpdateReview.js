@@ -5,6 +5,8 @@ import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
 import myPic from '../../user/images/The_Wind_That_Shakes_The_Barley_-_panoramio.jpg';
+import { useForm } from '../../shared/hooks/form-hook';
+
 
 const DUMMY_REVIEWS = [
     {
@@ -29,6 +31,22 @@ const UpdateReview = () => {
 
     const identifiedReview = DUMMY_REVIEWS.find(r => r.id === reviewId);
 
+    const [formState, inputHandler] = useForm({
+      title: {
+        value: identifiedReview.title,
+        isValid: true
+      },
+      review: {
+        value: identifiedReview.review,
+        isValid: true
+      }
+    }, true);
+
+    const reviewUpdateSubmitHandler = event => {
+        event.preventDefault();
+        console.log(formState.inputs);
+    }
+
     if(!identifiedReview) {
         return <div className='center'>
             <h2>Could not find review</h2>
@@ -36,7 +54,7 @@ const UpdateReview = () => {
     }
 
   return (
-    <form className='review-form'>
+    <form className='review-form' onSubmit={reviewUpdateSubmitHandler}>
       <Input 
       id="title" 
       element="input" 
@@ -44,9 +62,9 @@ const UpdateReview = () => {
       label="Title"
       validators={[VALIDATOR_REQUIRE()]}
       errorText="Please enter a vaild title."
-      onInput={() => {}}
-      value={identifiedReview.title}
-      valid={true}
+      onInput={inputHandler}
+      initialValue={formState.inputs.title.value}
+      initialIsValid={formState.inputs.title.isValid}
       />
 
     <Input 
@@ -55,11 +73,11 @@ const UpdateReview = () => {
       label="Review"
       validators={[VALIDATOR_MINLENGTH(25)]}
       errorText="Please enter a review(min 25 characters)."
-      onInput={() => {}}
-      value={identifiedReview.review}
-      valid={true}
+      onInput={inputHandler}
+      initialValue={formState.inputs.review.value}
+      initialIsValid={formState.inputs.review.isValid}
       />
-      <Button type="submit" disabled={true}>UPDATE REVIEW</Button>
+      <Button type="submit" disabled={!formState.isValid}>UPDATE REVIEW</Button>
     </form>
   )
 }
