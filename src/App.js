@@ -47,6 +47,8 @@ import React from "react";
 import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 
 import Users from './user/pages/Users';
+import Authentication from "./reviews/pages/Authentication";
+import Auth from "./user/pages/Auth";
 import NewReview from "./reviews/pages/NewReview";
 import UserReviews from "./reviews/pages/UserReviews";
 import UpdateReview from "./reviews/pages/UpdateReview";
@@ -70,6 +72,12 @@ function App () {
       <Route path="/reviews/:reviewId">
         <UpdateReview />
       </Route>
+      {/* <Route path="/auth">
+          <Authentication />
+        </Route> */}
+      <Route path="/auth">
+          <Auth />
+        </Route>
       <Redirect to="/" />   
       </Switch>
     </main>
