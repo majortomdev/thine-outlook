@@ -12,10 +12,10 @@ const NavLinks = props => {
             <NavLink to="/user1/reviews">MY REVIEWS</NavLink>
         </li>
         <li>
-            <NavLink to="/reviews/new">ADD REVIEW</NavLink>
+            <NavLink to="/reviews/new">ADD REViiIEW</NavLink>
         </li>
         <li>
-            <NavLink to="/auth">AUTHENTICATE</NavLink>
+            <NavLink to="/auth">LOG IN/SIGN UP</NavLink>
         </li>
     </ul>
 };

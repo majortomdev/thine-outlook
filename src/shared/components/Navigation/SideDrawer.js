@@ -16,7 +16,8 @@ const SideDrawer = props => {
         </CSSTransition>
         );
 
-    return ReactDOM.createPortal(content, document.getElementById('drawer-hook') );
+    return ReactDOM.createPortal(content, document.getElementById('drawer-hook') );//i used a portal to render 
+    //this component somewhere other than the 'root' div, in the drawer-hook div at index.html
 };
 
 export default SideDrawer;
