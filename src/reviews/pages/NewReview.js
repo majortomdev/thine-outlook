@@ -1,4 +1,4 @@
-import React, { useCallback, useReducer } from "react";
+import React from "react";
 
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
@@ -22,7 +22,7 @@ const NewReview = () => {
     const reviewSubmitHandler = event => {
         event.preventDefault();
         console.log(formState.inputs);//send to EP.
-    }
+    };
 
     return (
     <form className="review-form" onSubmit={reviewSubmitHandler}>
@@ -51,7 +51,7 @@ const NewReview = () => {
             errorText= "Please enter associated information"
             onInput={inputHandler}
         />
-        <Button type="submit" disabled={!formState.isValid}>Add new Review</Button>
+        <Button type="submit" disabled={!formState.isValid}>Add new Reviiew</Button>
     </form>
     );
 };

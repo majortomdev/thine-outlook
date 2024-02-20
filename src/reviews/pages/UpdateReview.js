@@ -66,9 +66,11 @@ const UpdateReview = () => {
     }
 
     if(!identifiedReview) {
-        return <div className='center'>
+        return (
+        <div className='center'>
             <h2>Could not find review</h2>
         </div>
+        );
     }
 
     if(isLoading){
@@ -76,7 +78,7 @@ const UpdateReview = () => {
         <div className='center'>
           <h2>.....loading....</h2>
         </div>
-      )
+      );
     }
   return ( 
     <form className='review-form' onSubmit={reviewUpdateSubmitHandler}>

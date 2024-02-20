@@ -20,12 +20,12 @@ const ReviewList = props => {
     return <ul className="review-list">
         {props.items.map(review => (
         <ReviewItem 
-        key={review.id} 
-        id={review.id} 
-        image={review.imageUrl}
-        title={review.title}
-        review={review.review} 
-        reviewerId={review.reviewer}
+            key={review.id} 
+            id={review.id} 
+            image={review.imageUrl}
+            title={review.title}
+            review={review.review} 
+            reviewerId={review.reviewer}
         />
         ))}
     </ul>

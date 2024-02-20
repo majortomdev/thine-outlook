@@ -47,7 +47,7 @@ import React, { useState, useCallback } from "react";
 import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 
 import Users from './user/pages/Users';
-import Authentication from "./reviews/pages/Authentication";
+//import Authentication from "./reviews/pages/Authentication";
 import Auth from "./user/pages/Auth";
 import NewReview from "./reviews/pages/NewReview";
 import UserReviews from "./reviews/pages/UserReviews";
@@ -66,6 +66,44 @@ function App () {
     setIsLoggedIn(false);
   }, []);
 
+  let routes;
+
+  if(isLoggedIn) {
+    routes= (
+      <Switch>
+      <Route path="/" exact>
+          <Users />
+      </Route>
+      <Route path="/:userId/reviews" exact>
+          <UserReviews />
+      </Route>
+      <Route path="/reviews/new" exact>
+          <NewReview />
+        </Route>
+      <Route path="/reviews/:reviewId">
+        <UpdateReview />
+      </Route>
+
+      <Redirect to="/" />
+    </Switch>
+    );
+  } else {
+    routes = (
+      <Switch>
+        <Route path="/" exact>
+            <Users />
+        </Route>
+        <Route path="/:userId/reviews" exact>
+            <UserReviews />
+        </Route>
+        <Route path="/auth">
+            <Auth />
+        </Route>
+        <Redirect to="/auth" />
+      </Switch>
+    );
+  }
+
   return (
   <AuthContext.Provider value={{
     isLoggedIn: isLoggedIn,
@@ -74,28 +112,7 @@ function App () {
   <Router>
     <MainNavigation />
     <main>
-      <Switch>
-      <Route path="/" exact>
-        <Users />
-      </Route>
-      <Route path="/:userId/reviews" exact>
-        <UserReviews />
-      </Route>
-      <Route path="/reviews/new" exact>
-        <NewReview />
-{/* this route would be unreachable if placed below following route: */}
-      </Route>
-      <Route path="/reviews/:reviewId">
-        <UpdateReview />
-      </Route>
-      {/* <Route path="/auth">
-          <Authentication />
-        </Route> */}
-      <Route path="/auth">
-          <Auth />
-        </Route>
-      <Redirect to="/" />   
-      </Switch>
+        {routes}
     </main>
   </Router>
   </AuthContext.Provider>

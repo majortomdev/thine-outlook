@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import Card from '../../shared/components/UIElements/Card';
 import Input from '../../shared/components/FormElements/Input';
@@ -7,9 +7,13 @@ import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE }
         from '../../shared/util/validators';
 import { useForm } from '../../shared/hooks/form-hook';
 
+import { AuthContext } from '../../shared/context/auth-context';
+
 import './Auth.css';
 
 const Auth = () => {
+    const auth = useContext(AuthContext);
+
     const [isLoginMode, setIsLoginMode] = useState(true);
     const [formState, inputHandler, setFormData] = useForm({
         email: {
@@ -46,6 +50,7 @@ const Auth = () => {
     const authSubmitHandler = event => {
         event.preventDefault();
         console.log(formState.inputs);
+        auth.login();
     }
 
   return (
@@ -73,17 +78,13 @@ const Auth = () => {
             errorText="Please enter a vaid password <min 8 characters>."
             onInput={inputHandler}
             />
-        <Button type="submit" disabled={!formState.isValid}>
+        <Button type="submit" disabled={!formState.isValid} >
             {isLoginMode? 'LOGiiIN': 'SIGN UP'}
         </Button>
 
-
-{isLoginMode && <p>If not already signed up:</p>}
-
-
-
-
         </form>
+
+        {isLoginMode && <p>If not already signed up:</p>}
         <Button inverse onClick={switchModeHandler}>
          {isLoginMode? 'SIiggGN UP': 'LOGggIN'}
         </Button>
