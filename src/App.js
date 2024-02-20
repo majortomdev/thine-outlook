@@ -43,7 +43,7 @@
 
 
 
-import React from "react";
+import React, { useState, useCallback } from "react";
 import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 
 import Users from './user/pages/Users';
@@ -53,9 +53,25 @@ import NewReview from "./reviews/pages/NewReview";
 import UserReviews from "./reviews/pages/UserReviews";
 import UpdateReview from "./reviews/pages/UpdateReview";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
+import { AuthContext } from "./shared/context/auth-context";
 
 function App () {
-  return <Router>
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const login = useCallback(() => {
+    setIsLoggedIn(true);
+  }, []);
+
+  const logout = useCallback(() => {
+    setIsLoggedIn(false);
+  }, []);
+
+  return (
+  <AuthContext.Provider value={{
+    isLoggedIn: isLoggedIn,
+    login: login, logout: logout
+  }}>
+  <Router>
     <MainNavigation />
     <main>
       <Switch>
@@ -82,7 +98,9 @@ function App () {
       </Switch>
     </main>
   </Router>
-}   //Redirect 2 lines above redirects to base if dud/invalid url is entered
+  </AuthContext.Provider>
+  );
+};  //Redirect 6 lines above redirects to base if dud/invalid url is entered
 
 export default App;
 

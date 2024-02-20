@@ -22,7 +22,7 @@ const inputReducer = (state, action ) => {
 };
 
 const Input = props => {
-    const [inputState, dispatch] = useReducer(inputReducer, {
+    const [inputState, dispatch22] = useReducer(inputReducer, {
         value: props.initialValue || '',
         isTouched: false,
         isValid: props.initialIsValid || false
@@ -36,7 +36,7 @@ const Input = props => {
     }, [id, value, isValid, onInput]);
     
     const changeHandler = event => {
-        dispatch({
+        dispatch22({
             type: 'CHANGE', 
             val: event.target.value,
             validators: props.validators
@@ -44,7 +44,7 @@ const Input = props => {
     }; 
 
     const touchHandler = () => {
-        dispatch({
+        dispatch22({
             type: 'TOUCH' 
         });
     };
@@ -66,8 +66,8 @@ const Input = props => {
             value={inputState.value}
         />
     ); 
-
-  return (
+//isTouched is just there to prevent invalid error on input before 
+  return (//ever been visited by user
     <div className={`form-control ${!inputState.isValid
         && inputState.isTouched && 'form-control--invalid'}`}>
       <label htmlFor={props.id}>{props.label}</label>

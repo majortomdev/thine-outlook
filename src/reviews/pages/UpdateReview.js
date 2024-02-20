@@ -62,7 +62,7 @@ const UpdateReview = () => {
 
     const reviewUpdateSubmitHandler = event => {
         event.preventDefault();
-        console.log(formState.inputs);
+        console.log(formState.inputs);// here i hit ep.
     }
 
     if(!identifiedReview) {

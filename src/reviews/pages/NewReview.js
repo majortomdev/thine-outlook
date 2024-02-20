@@ -21,7 +21,7 @@ const NewReview = () => {
 
     const reviewSubmitHandler = event => {
         event.preventDefault();
-        console.log(formState.inputs);
+        console.log(formState.inputs);//send to EP.
     }
 
     return (
