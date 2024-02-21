@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import  Card   from "../../shared/components/UIElements/Card";
 import Button from "../../shared/components/FormElements/Button";
 import Modal from "../../shared/components/UIElements/Modal";
+import { AuthContext } from "../../shared/context/auth-context";
 import './ReviewItem.css';
 
 const ReviewItem = props => {
+    const auth = useContext(AuthContext);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     
     const showDeleteWarningHandler = () => {
@@ -47,8 +49,8 @@ const ReviewItem = props => {
                     <p>{props.review}</p>
                 </div>
                 <div className="review-item__actions">
-                    <Button to={`/reviews/${props.id}`}>EDIT</Button>
-                    <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>
+                {auth.isLoggedIn && <Button to={`/reviews/${props.id}`}>EDIT</Button>}
+                {auth.isLoggedIn && <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>}
                 </div>
             </Card>
         </li>

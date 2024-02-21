@@ -7,6 +7,10 @@ import './NavLinks.css';
 
 const NavLinks = props => {
     const auth = useContext(AuthContext);
+    // const logout = () => {
+    //     auth.isLoggedIn= false;
+    //     <NavLink to="/"></NavLink>
+    // }
 
     return <ul className="nav-links">
         <li>
@@ -19,7 +23,12 @@ const NavLinks = props => {
         )}
         {auth.isLoggedIn && (
         <li>
-            <NavLink to="/reviews/new">ADD REViiIEW</NavLink>
+            <NavLink to="/reviews/new">ADD REV22EW</NavLink>
+        </li>
+        )}
+        {auth.isLoggedIn && (
+        <li>
+            <button onClick={auth.logout}>Log22 out</button>
         </li>
         )}
         {!auth.isLoggedIn && (
