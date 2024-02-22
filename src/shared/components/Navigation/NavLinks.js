@@ -7,10 +7,6 @@ import './NavLinks.css';
 
 const NavLinks = props => {
     const auth = useContext(AuthContext);
-    // const logout = () => {
-    //     auth.isLoggedIn= false;
-    //     <NavLink to="/"></NavLink>
-    // }
 
     return <ul className="nav-links">
         <li>
