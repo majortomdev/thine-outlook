@@ -16,11 +16,11 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	  private int id;
+	private int user_id;
 	@Column(name="user_name")
-	  private String userName;
+	private String userName;
 	@Column(name="image_url")
-	  private String imageUrl;
+	private String imageUrl;
 	
 	public User() {
 		
@@ -28,17 +28,17 @@ public class User {
 	
 	public User(int id, String userName, String imageUrl) {
 		super();
-		this.id = id;
+		this.user_id = id;
 		this.userName = userName;
 		this.imageUrl = imageUrl;
 	}
 
 	public int getId() {
-	      return id;
+	      return user_id;
 	  }
 	
 	public void setId(int id) {
-	      this.id = id;
+	      this.user_id = id;
 	  }
 	
 	public String getUserName() {
@@ -59,7 +59,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", userName=" + userName + 
+		return "User [id=" + user_id + ", userName=" + userName + 
 				", imageUrl=" + imageUrl + "]";
 	}
 	

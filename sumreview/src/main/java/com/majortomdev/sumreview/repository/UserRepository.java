@@ -9,7 +9,7 @@ import com.majortomdev.sumreview.model.User;
 /*  created by joek 22/02/24  */
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Integer> {
 
 
 }
