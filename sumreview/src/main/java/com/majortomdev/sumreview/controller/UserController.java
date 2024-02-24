@@ -7,12 +7,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.majortomdev.sumreview.model.User;
 import com.majortomdev.sumreview.repository.UserRepository;
-
 
 @RestController
 @RequestMapping("/users")
@@ -31,5 +32,10 @@ public class UserController {
 	public User getUserById(@PathVariable int id) {
 		User user = userRepository.findById(id).get();
 		return user;
+	}
+	
+	@PostMapping(path="/user/add", consumes="application/json")
+	public void createUser(@RequestBody User user) {
+		userRepository.save(user);
 	}
 }
