@@ -8,7 +8,7 @@ const UsersList = props => {
     if(props.items.length ===0){
         return (<div className="center">
             <Card>
-            <h2>No users found.</h2>
+            <h2>No users. found.</h2>
             </Card>
         </div>
         );
@@ -16,14 +16,16 @@ const UsersList = props => {
 
     return (
         <ul className="users-list">
+
             {props.items.map(user => (
              <UserItem 
              key={user.id} 
              id={user.id} 
-             image={user.image} 
-             name={user.name} 
-             reviewCount={user.reviews}/>
+             image={user.imageUrl} 
+             name={user.userName} 
+             reviewCount={0}/>
             ))}
+
         </ul>
     );
 

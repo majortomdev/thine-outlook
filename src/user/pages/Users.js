@@ -1,17 +1,49 @@
-import React from "react";
-
-import myPic from '../images/IMG_20210921_214347.jpg';
+import React, { useState, useEffect } from "react";
 import UsersList from "../components/UsersList";
 
 const Users = () => {
+     const [users, updateUsers] = useState([]);
+     const getUsers = () => {
+        return users;
+    }
+     useEffect(() => {
+         fetch('http://localhost:8080/users',{
+            method: "GET",
+            mode: "cors"
+        })
+        .then(res => res.json())
+        .then(res => updateUsers(res._embedded.users))
+        .catch((error) => {
+            console.error(error);
+        });
 
-    const USERS = [
-        {id:'user1', name:'Gregor Grumble', 
-    image: myPic,
-    reviews: 5}
-];
+        }, []);  
 
-    return <UsersList items={USERS}/>;
-}
+     return <UsersList items={getUsers()}/>;
+    }
 
 export default Users;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const url = 'https://localhost:8080/users';
