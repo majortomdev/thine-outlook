@@ -17,15 +17,23 @@ router.get('/:rid', (req, res, next) => {
     const review = DUMMY_REVIEWS.find(r => {
         return r.id === reviewId;
     });
+
+    if(!review){
+        return res.status(404).json({message: 'Unable to find a review with id:  '+reviewId});
+    }
     res.json({review: review});
 });
 
 router.get('/user/:uid', (req, res, next) => {
     const userId = req.params.uid;
-    const user = DUMMY_REVIEWS.find(r => {
+    const review = DUMMY_REVIEWS.find(r => {
         return r.user === userId; 
     });
-    res.json({user});
+    if(!review){
+        return res.status(404).json({message: 'Unable to find a review with user id:  '+userId});
+    }
+
+    res.json({review});
 });
 
 
