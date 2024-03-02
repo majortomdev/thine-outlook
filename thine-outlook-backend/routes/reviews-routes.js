@@ -19,7 +19,9 @@ router.get('/:rid', (req, res, next) => {
     });
 
     if(!review){
-        return res.status(404).json({message: 'Unable to find a review with id:  '+reviewId});
+        const error = new Error('Could not find a review for given id');
+        error.code = 404;
+        throw error;
     }
     res.json({review: review});
 });
@@ -30,7 +32,9 @@ router.get('/user/:uid', (req, res, next) => {
         return r.user === userId; 
     });
     if(!review){
-        return res.status(404).json({message: 'Unable to find a review with user id:  '+userId});
+        const error = new Error('Could not find a review for given id');
+        error.code = 404;
+        return next(error);
     }
 
     res.json({review});
