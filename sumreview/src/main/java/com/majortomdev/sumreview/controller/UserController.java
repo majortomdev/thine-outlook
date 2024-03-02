@@ -27,19 +27,21 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin(origins="*", allowedHeaders="*", maxAge=3600)
+//@CrossOrigin(origins="*", allowedHeaders="*", maxAge=3600)
+@CrossOrigin
 public class UserController {
-	
 	@Autowired
 	private UserRepository userRepository;
 	
-	@CrossOrigin(origins="http://localhost:3000", maxAge = 3600)
-	@GetMapping("/")
+	//@CrossOrigin(origins="http://localhost:3000", maxAge = 3600)
+//	@GetMapping("/")
 	@ResponseBody
-	public List<User> getAllUsers(){
-		List<User> users = userRepository.findAll();
-		return users;
-	}	
+//	public List<User> getAllUsers(){
+//		System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+//		//List<User> users = userRepository.findAll();
+//		List<User> users = List.of();
+//		return users;
+//	}	
 	
 	@GetMapping("/{id}")
 	public User getUserById(@PathVariable int id) {
@@ -47,11 +49,40 @@ public class UserController {
 		return user;
 	}
 	
+//	@PostMapping("/add")
+//	@ResponseStatus(code=HttpStatus.CREATED)
+//	public void createUser(@RequestBody User user) {
+//		userRepository.save(user);
+//	}
+	
+	
+	@CrossOrigin(origins="http://localhost:3000/add", maxAge = 3600)
 	@PostMapping("/add")
 	@ResponseStatus(code=HttpStatus.CREATED)
-	public void createUser(@RequestBody User user) {
+	public ResponseEntity<String> createUser(@RequestBody User user) {
+//		HttpHeaders responseHeaders = new HttpHeaders();
+//		responseHeaders.set("Access-Control-Allow-Origin", "*");
 		userRepository.save(user);
+		return ResponseEntity.ok("User saved");
 	}
+	
+	
+	// to try do it w/o using responseentity
+//	@RequestMapping(value="/car/{carId}", method = RequestMethod.Get)
+//	@ResponseBody
+//	public Car getCarById(@PathVariable("carId") String Id, HttpServletResponse response) {
+//
+//	    response.setHeader("X-Special-Header", myCar.getEcoLabel());
+//	    //get the car
+//	    return myCar;
+//	}
+	
+	
+	
+	
+	
+	
+	//*********************************************
 	
 	@PutMapping("/update/{id}")
 	public User updateUser(@PathVariable int id) {

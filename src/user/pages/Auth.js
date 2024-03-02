@@ -50,6 +50,39 @@ const Auth = () => {
     const authSubmitHandler = event => {
         event.preventDefault();
         console.log(formState.inputs);
+
+
+        (async () => {
+            const rawResponse = await fetch('http://localhost/users/add', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                //'Access-Control-Allow-Origin': '*',
+                'Access-Control-Request-Headers': '*'
+              },
+              body: JSON.stringify({eMail: formState.inputs.email, 
+                userName: formState.inputs.name, imageUrl: formState.inputs.image, 
+                password: formState.inputs.password})
+            });
+
+            // body: ({eMail: formState.inputs.email, 
+            //     userName: formState.inputs.name, imageUrl: formState.inputs.image, 
+            //     password: formState.inputs.password})
+            // });
+
+            const content = await rawResponse.json();
+          
+            console.log(content);
+          })();
+
+
+
+
+
+
+
+
         auth.login();
     }
 
@@ -59,10 +92,12 @@ const Auth = () => {
         <hr />
         <form onSubmit={authSubmitHandler}>
             {!isLoginMode && (
-            <Input element="input" id="name" type="text" label="Your Name" 
-            validators={[VALIDATOR_REQUIRE()]} errorText="Please enter a name."
-            onInput={inputHandler}
-            />
+            <><Input element="input" id="name" type="text" label="Your Name"
+                validators={[VALIDATOR_REQUIRE()]} errorText="Please enter a name."
+                onInput={inputHandler} />
+            <Input element="input" id="image" type="text" label="Your Image URL"
+                validators={[VALIDATOR_REQUIRE()]} errorText="Please enter a URL."
+                onInput={inputHandler} /></>
             )}
             <Input 
             id="email" element="input" 
