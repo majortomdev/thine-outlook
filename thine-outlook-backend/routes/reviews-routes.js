@@ -20,4 +20,15 @@ router.get('/:rid', (req, res, next) => {
     res.json({review: review});
 });
 
+router.get('/user/:uid', (req, res, next) => {
+    const userId = req.params.uid;
+    const user = DUMMY_REVIEWS.find(r => {
+        return r.user === userId; 
+    });
+    res.json({user});
+});
+
+
+
+
 module.exports = router;
