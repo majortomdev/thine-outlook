@@ -1,5 +1,7 @@
 const express = require('express');
 
+const HttpError = require('../models/http-error');
+
 const router = express.Router();
 
 const DUMMY_REVIEWS = [
@@ -19,9 +21,7 @@ router.get('/:rid', (req, res, next) => {
     });
 
     if(!review){
-        const error = new Error('Could not find a review for given id');
-        error.code = 404;
-        throw error;
+        throw new HttpError('Could not find a review for given id', 404);
     }
     res.json({review: review});
 });
@@ -32,9 +32,9 @@ router.get('/user/:uid', (req, res, next) => {
         return r.user === userId; 
     });
     if(!review){
-        const error = new Error('Could not find a review for given id');
-        error.code = 404;
-        return next(error);
+        return next(
+            new HttpError('Could not find a review for given id', 404)
+            );
     }
 
     res.json({review});
