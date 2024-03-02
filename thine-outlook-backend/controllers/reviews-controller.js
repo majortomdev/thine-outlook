@@ -1,3 +1,9 @@
+//const uuid = require('uuid');
+//const uuidv4 = require('uuid/v4');
+//const uuid = require('uuid');
+//import { v4 as uuidv4 } from 'uuid';
+const uuidV4 = require('uuid').v4;
+
 const HttpError = require('../models/http-error');
 
 const DUMMY_REVIEWS = [
@@ -37,5 +43,21 @@ const getPlaceByUserId = (req, res, next) => {
     res.json({review});
 };
 
+function createReview(req, res, next) {
+    const { title, description, review, user } = req.body; //const title = req.body.title  etc....obj destructuring short for this
+    const createdReview = {
+        id: uuidV4(),
+        title: title, //or can just use name when names the same -> title,description, review, user-> no need for colon or reapeated word
+        description: description,
+        review: review,
+        user: user
+    };
+
+    DUMMY_REVIEWS.push(createdReview); //or unshift(createdReview) if wanting it at start
+
+    res.status(201).json({ createdReview });
+}
+
 exports.getPlaceById = getPlaceById;
 exports.getPlaceByUserId = getPlaceByUserId;
+exports.createReview = createReview;
