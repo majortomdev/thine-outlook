@@ -19,12 +19,12 @@ let DUMMY_REVIEWS = [
         title: 'The Copper Kettle',
         description: 'A Cafe serving fine food',
         review: 'Sed congue lobortis mauris, et tincidunt tortor lobortis non. Vestibulum in nibh lectus. Nunc et ligula sit amet nibh auctor commodo. Aenean fringilla ex id eleifend tincidunt. Vestibulum aliquet nibh commodo tortor porta consectetur mattis et enim. Proin arcu velit, dignissim vitae porta sit amet, molestie at erat. Maecenas vel lectus a mi molestie accumsan eu ut tortor. Donec varius massa sit amet lectus posuere, eget eleifend sapien rhoncus. ',
-        user: 'u6'
+        user: 'r2'
     }
 ];
 
 
-const getPlaceById = (req, res, next) => {
+const getReviewById = (req, res, next) => {
     const reviewId = req.params.rid;
     const review = DUMMY_REVIEWS.find(r => {
         return r.id === reviewId;
@@ -36,7 +36,7 @@ const getPlaceById = (req, res, next) => {
     res.json({review: review});
 }
 
-const getPlacesByUserId = (req, res, next) => {
+const getReviewsByUserId = (req, res, next) => {
     const userId = req.params.uid;
     const reviews = DUMMY_REVIEWS.filter(r => {
         return r.user === userId; 
@@ -87,8 +87,8 @@ const deleteReview = (req, res, next) => {
 
 
 
-exports.getPlaceById = getPlaceById;
-exports.getPlacesByUserId = getPlacesByUserId;
+exports.getReviewById = getReviewById;
+exports.getReviewsByUserId = getReviewsByUserId;
 exports.createReview = createReview;
 exports.updateReview = updateReview;
 exports.deleteReview = deleteReview;

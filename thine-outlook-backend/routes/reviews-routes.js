@@ -6,9 +6,9 @@ const router = express.Router();
 
 
 
-router.get('/:rid', reviewsController.getPlaceById);
+router.get('/:rid', reviewsController.getReviewById);
 
-router.get('/user/:uid', reviewsController.getPlacesByUserId);
+router.get('/user/:uid', reviewsController.getReviewsByUserId);
 
 router.post('/', reviewsController.createReview);
 
