@@ -3,6 +3,7 @@
 //const uuid = require('uuid');
 //import { v4 as uuidv4 } from 'uuid';
 const uuidV4 = require('uuid').v4;
+const { validationResult } = require('express-validator');
 
 const HttpError = require('../models/http-error');
 
@@ -22,7 +23,6 @@ let DUMMY_REVIEWS = [
         user: 'r2'
     }
 ];
-
 
 const getReviewById = (req, res, next) => {
     const reviewId = req.params.rid;
@@ -51,6 +51,12 @@ const getReviewsByUserId = (req, res, next) => {
 };
 
 function createReview(req, res, next) {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        console.log(errors);
+        throw new HttpError('Invalid or missing inputs prevented Review creation', 422);
+    }
+
     const { title, description, review, user } = req.body; //const title = req.body.title  etc....obj destructuring short for this
     const createdReview = {
         id: uuidV4(),
@@ -66,6 +72,12 @@ function createReview(req, res, next) {
 };
 
 const updateReview = (req, res, next) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        console.log(errors);
+        throw new HttpError('Invalid or missing entries prevented Review update', 422);
+    }
+
     const { description, review } = req.body;
     const reviewId = req.params.rid;
 
