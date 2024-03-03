@@ -1,5 +1,7 @@
-const HttpError = require('../models/http-error');
 const uuidV4 = require('uuid').v4;
+const { validationResult } = require('express-validator');
+
+const HttpError = require('../models/http-error');
 
 const DUMMY_USERS = [{
     id: 'u1',
@@ -23,6 +25,12 @@ const getAllUsers = (req, res, next) => {
 };
 
 const newUserSignUp = (req, res, next) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        console.log(errors);
+        throw new HttpError('Invalid or missing inputs prevented registration', 422);
+    }
+
     const { email, reviews, userName, password } = req.body;
     const hasUser = DUMMY_USERS.find(u => u.email === email);
     if(hasUser){

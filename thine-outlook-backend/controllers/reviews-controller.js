@@ -93,6 +93,9 @@ const updateReview = (req, res, next) => {
 
 const deleteReview = (req, res, next) => {
     const reviewId = req.params.rid;
+    if(!DUMMY_REVIEWS.find(r => r.id === reviewId)){
+        throw new HttpError('Could not find a review for that id', 404);
+    }
     DUMMY_REVIEWS = DUMMY_REVIEWS.filter(r => r.id !== reviewId);
     res.status(200).json({message: "Review '"+reviewId +"' successfully deleted."});
 };
