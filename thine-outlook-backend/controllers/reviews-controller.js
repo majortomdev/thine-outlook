@@ -25,16 +25,25 @@ let DUMMY_REVIEWS = [
     }
 ];
 
-const getReviewById = (req, res, next) => {
+const getReviewById = async (req, res, next) => {
     const reviewId = req.params.rid;
-    const review = DUMMY_REVIEWS.find(r => {
-        return r.id === reviewId;
-    });
+    let review;
+    try {
+        review = await Review.findById(reviewId);
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not find this review', 500
+        );
+            return next(error);
+    }
 
     if(!review){
-        throw new HttpError('Could not find a review for given id', 404);
+        const error = new HttpError(
+            'Could not find a review for given id', 404
+        );
+        return next(error);
     }
-    res.json({review: review});
+    res.json({review: review.toObject({getters: true}) });
 }
 
 const getReviewsByUserId = (req, res, next) => {
