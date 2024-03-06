@@ -15,7 +15,7 @@ router.post('/',
  [
     check('title').not().isEmpty(),
     check('description').isLength({min: 12}),
-    check('user').not().isEmpty(),
+    check('reviewer').not().isEmpty(),
     check('review').isLength({min: 25})
 ], 
 reviewsController.createReview);

@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const reviewsRoutes = require('./routes/reviews-routes');
 const usersRoutes = require('./routes/users-routes');
@@ -27,6 +28,12 @@ app.use((error, req, res, next) => {
     res.json({message: error.message || 'An unknown error occurred'});
 });
 
-
-
-app.listen(5000);
+//this connect returns a PROMISE bcos it is an ASYNCHRONOUS task 
+mongoose
+    .connect('mongodb+srv://JosephK:N_E_T_25@restaurant-reviews.ebyxhbl.mongodb.net/reviews?retryWrites=true&w=majority&appName=restaurant-reviews')
+    .then(() => {
+        app.listen(5000);
+    })
+    .catch(err => {
+        console.log(err);
+    });

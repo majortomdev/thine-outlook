@@ -6,6 +6,7 @@ const uuidV4 = require('uuid').v4;
 const { validationResult } = require('express-validator');
 
 const HttpError = require('../models/http-error');
+const Review = require('../models/review');
 
 let DUMMY_REVIEWS = [
     {
@@ -50,23 +51,30 @@ const getReviewsByUserId = (req, res, next) => {
     res.json({reviews});
 };
 
-function createReview(req, res, next) {
+async function createReview(req, res, next) {
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         console.log(errors);
         throw new HttpError('Invalid or missing inputs prevented Review creation', 422);
     }
 
-    const { title, description, review, user } = req.body; //const title = req.body.title  etc....obj destructuring short for this
-    const createdReview = {
-        id: uuidV4(),
-        title: title, //or can just use name when names the same -> title,description, review, user-> no need for colon or reapeated word
-        description: description,
-        review: review,
-        user: user
-    };
+    const { title, description, review, reviewer } = req.body; //const title = req.body.title  etc....obj destructuring short for this
+    const createdReview = new Review({
+        title,
+        description,
+        review,
+        reviewer
+    });
 
-    DUMMY_REVIEWS.push(createdReview); //or unshift(createdReview) if wanting it at start
+    try{
+        await createdReview.save();
+    }catch(err){
+        const error = new HttpError(
+           'Creating Review failed, please try again', 500 
+        );
+        return next(error);
+    }
+    
 
     res.status(201).json({ createdReview });
 };
