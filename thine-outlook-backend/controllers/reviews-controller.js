@@ -79,7 +79,7 @@ async function createReview(req, res, next) {
         throw new HttpError('Invalid or missing inputs prevented Review creation', 422);
     }
 
-    const { title, description, review, reviewer } = req.body; //const title = req.body.title  etc....obj destructuring short for this
+    const { title, description, content, reviewer } = req.body; //const title = req.body.title  etc....obj destructuring short for this
     const createdReview = new Review({
         title,
         description,
@@ -97,7 +97,7 @@ async function createReview(req, res, next) {
     }
     
 
-    res.status(201).json({ createdReview });
+    res.status(201).json({ createdReview: createdReview.toObject({ getters: true}) });
 };
 
 const updateReview = async (req, res, next) => {
@@ -109,9 +109,6 @@ const updateReview = async (req, res, next) => {
 
     const { description, content } = req.body;
     const reviewId = req.params.rid;
-
-    // const updatedReview = { ...DUMMY_REVIEWS.find(r => r.id === reviewId)};
-    // const reviewIndex = DUMMY_REVIEWS.findIndex(r => r.id === reviewId);
 
     let review;
     try {
@@ -139,12 +136,27 @@ const updateReview = async (req, res, next) => {
     res.status(200).json({review: review.toObject({ getters: true})});
 };
 
-const deleteReview = (req, res, next) => {
+const deleteReview = async (req, res, next) => {
     const reviewId = req.params.rid;
-    if(!DUMMY_REVIEWS.find(r => r.id === reviewId)){
-        throw new HttpError('Could not find a review for that id', 404);
+    
+    let review;
+    try {
+        review = await Review.findById(reviewId);
+    } catch (err) {
+        const error = new HttpError(
+            'Something went bad, couldnt delete review.',500
+        );
+        return next(error);
     }
-    DUMMY_REVIEWS = DUMMY_REVIEWS.filter(r => r.id !== reviewId);
+    console.log(review.title);
+    try {
+        await Review.deleteOne(review);
+    } catch (err) {
+        const error = new HttpError(
+            'Something went bad, couldnt remove review.',500
+        );
+        return next(error);
+    }
     res.status(200).json({message: "Review '"+reviewId +"' successfully deleted."});
 };
 
