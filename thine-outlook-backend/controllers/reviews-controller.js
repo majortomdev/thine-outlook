@@ -83,7 +83,7 @@ async function createReview(req, res, next) {
     const createdReview = new Review({
         title,
         description,
-        review,
+        content,
         reviewer
     });
 
@@ -100,24 +100,43 @@ async function createReview(req, res, next) {
     res.status(201).json({ createdReview });
 };
 
-const updateReview = (req, res, next) => {
+const updateReview = async (req, res, next) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         console.log(errors);
         throw new HttpError('Invalid or missing entries prevented Review update', 422);
     }
 
-    const { description, review } = req.body;
+    const { description, content } = req.body;
     const reviewId = req.params.rid;
 
-    const updatedReview = { ...DUMMY_REVIEWS.find(r => r.id === reviewId)};
-    const reviewIndex = DUMMY_REVIEWS.findIndex(r => r.id === reviewId);
-    updatedReview.description = description;
-    updatedReview.review = review;
+    // const updatedReview = { ...DUMMY_REVIEWS.find(r => r.id === reviewId)};
+    // const reviewIndex = DUMMY_REVIEWS.findIndex(r => r.id === reviewId);
 
-    DUMMY_REVIEWS[reviewIndex] = updatedReview;
+    let review;
+    try {
+        review = await Review.findById(reviewId);
+    } catch (err) {
+        const error = new HttpError(
+            'Something went awry, couldnt update review.',500
+        );
+        return next(error);
+    }
 
-    res.status(200).json({review: updatedReview});
+
+    review.description = description;
+    review.content = content;
+
+    try {
+        await review.save();
+    } catch (err) {
+        const error = new HttpError(
+            'Something went awry, couldnt save updated review.',500
+        );
+        return next(error);
+    }
+
+    res.status(200).json({review: review.toObject({ getters: true})});
 };
 
 const deleteReview = (req, res, next) => {

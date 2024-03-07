@@ -16,13 +16,13 @@ router.post('/',
     check('title').not().isEmpty(),
     check('description').isLength({min: 12}),
     check('reviewer').not().isEmpty(),
-    check('review').isLength({min: 25})
+    check('content').isLength({min: 25})
 ], 
 reviewsController.createReview);
 
 router.patch('/:rid', [
     check('description').isLength({min: 12}),
-    check('review').isLength({min: 25})
+    check('content').isLength({min: 25})
 ], reviewsController.updateReview);
 
 router.delete('/:rid', reviewsController.deleteReview);
