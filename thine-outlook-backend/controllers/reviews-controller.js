@@ -46,18 +46,30 @@ const getReviewById = async (req, res, next) => {
     res.json({review: review.toObject({getters: true}) });
 }
 
-const getReviewsByUserId = (req, res, next) => {
+const getReviewsByUserId = async (req, res, next) => {
     const userId = req.params.uid;
-    const reviews = DUMMY_REVIEWS.filter(r => {
-        return r.user === userId; 
-    });
+
+    let reviews; 
+
+    try {
+        reviews = await Review.find( {
+            reviewer: userId
+        })
+    } catch (err) {
+        const error = new HttpError(
+            'Something went wrong, could not find reviews', 500
+        );
+            return next(error);
+    }
+
+
     if(!reviews || reviews.length === 0){
         return next(
             new HttpError('Could not find reviews for given id', 404)
             );
     }
-
-    res.json({reviews});
+    //res.json({reviews});....below tweak gives me the id field without the leading _ on the key
+    res.json({reviews: reviews.map(review => review.toObject({ getters: true}))});
 };
 
 async function createReview(req, res, next) {
