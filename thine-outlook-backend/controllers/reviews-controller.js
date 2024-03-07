@@ -103,8 +103,8 @@ async function createReview(req, res, next) {
 const updateReview = async (req, res, next) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()){
-        console.log(errors);
-        throw new HttpError('Invalid or missing entries prevented Review update', 422);
+        return next( new HttpError(
+            'Invalid or missing entries prevented Review update', 422));
     }
 
     const { description, content } = req.body;
