@@ -40,7 +40,7 @@ const newUserSignUp = async (req, res, next) => {
             'Invalid or missing inputs prevented registration', 422));
     }
 
-    const { email, reviews, userName, password } = req.body;
+    const { email, userName, password } = req.body;
     let existingUser;
     try {
         existingUser = await User.findOne({ email: email});
@@ -62,7 +62,7 @@ const newUserSignUp = async (req, res, next) => {
         userName,
         email,
         password,
-        reviews
+        reviews: []
     });
 
     try{
