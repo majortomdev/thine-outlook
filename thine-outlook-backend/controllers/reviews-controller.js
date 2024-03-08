@@ -31,12 +31,11 @@ const getReviewById = async (req, res, next) => {
 const getReviewsByUserId = async (req, res, next) => {
     const userId = req.params.uid;
 
-    let reviews; 
+    //let reviews;
+    let userWithReviews; 
 
     try {
-        reviews = await Review.find( {
-            reviewer: userId
-        })
+        userWithReviews = await User.findById(userId).populate('reviews');
     } catch (err) {
         const error = new HttpError(
             'Something went wrong, could not find reviews', 500
@@ -45,21 +44,14 @@ const getReviewsByUserId = async (req, res, next) => {
     }
 
 
-    if(!reviews || reviews.length === 0){
+    if(!userWithReviews || userWithReviews.reviews.length === 0){
         return next(
             new HttpError('Could not find reviews for given id', 404)
             );
     }
     //res.json({reviews});....below tweak gives me the id field without the leading _ on the key
-    res.json({reviews: reviews.map(review => review.toObject({ getters: true}))});
+    res.json({reviews: userWithReviews.reviews.map(review => review.toObject({ getters: true}))});
 };
-
-
-
-
-///////////////////////////////////////////////////////////////////////
-
-
 
 async function createReview(req, res, next) {
     const errors = validationResult(req);
@@ -93,8 +85,6 @@ async function createReview(req, res, next) {
         return next(error);
     }
 
-    console.log(user);
-
     try{
         const sess = await mongoose.startSession();
         sess.startTransaction();
@@ -109,7 +99,6 @@ async function createReview(req, res, next) {
         return next(error);
     }
     
-
     res.status(201).json({ createdReview: createdReview.toObject({ getters: true}) });
 };
 
