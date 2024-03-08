@@ -1,29 +1,11 @@
-//const uuid = require('uuid');
-//const uuidv4 = require('uuid/v4');
-//const uuid = require('uuid');
-//import { v4 as uuidv4 } from 'uuid';
 const uuidV4 = require('uuid').v4;
 const { validationResult } = require('express-validator');
+const mongoose = require('mongoose');
 
 const HttpError = require('../models/http-error');
 const Review = require('../models/review');
+const User = require('../models/user');
 
-let DUMMY_REVIEWS = [
-    {
-        id: 'r1',
-        title: 'MgGowans Glasnevin',
-        description: 'A Pub/ Restaurant with Irish/ European fare',
-        review: 'Sed congue lobortis mauris, et tincidunt tortor lobortis non. Vestibulum in nibh lectus. Nunc et ligula sit amet nibh auctor commodo. Aenean fringilla ex id eleifend tincidunt. Vestibulum aliquet nibh commodo tortor porta consectetur mattis et enim. Proin arcu velit, dignissim vitae porta sit amet, molestie at erat. Maecenas vel lectus a mi molestie accumsan eu ut tortor. Donec varius massa sit amet lectus posuere, eget eleifend sapien rhoncus. ',
-        user: 'u1'
-    },
-    {
-        id: 'r2',
-        title: 'The Copper Kettle',
-        description: 'A Cafe serving fine food',
-        review: 'Sed congue lobortis mauris, et tincidunt tortor lobortis non. Vestibulum in nibh lectus. Nunc et ligula sit amet nibh auctor commodo. Aenean fringilla ex id eleifend tincidunt. Vestibulum aliquet nibh commodo tortor porta consectetur mattis et enim. Proin arcu velit, dignissim vitae porta sit amet, molestie at erat. Maecenas vel lectus a mi molestie accumsan eu ut tortor. Donec varius massa sit amet lectus posuere, eget eleifend sapien rhoncus. ',
-        user: 'r2'
-    }
-];
 
 const getReviewById = async (req, res, next) => {
     const reviewId = req.params.rid;
@@ -87,8 +69,32 @@ async function createReview(req, res, next) {
         reviewer
     });
 
+    let user;
+
+    try {
+        user = await User.findById(reviewer);
+    } catch (err) {
+        const error = new HttpError(
+            'Creating review failed, please try again', 500 
+         );
+         return next(error);
+    }
+
+    if(!user){
+        const error = new HttpError(
+            'Could not find user for provided id', 404); 
+        return next(error);
+    }
+
+    console.log(user);
+
     try{
-        await createdReview.save();
+        const sess = await mongoose.startSession();
+        sess.startTransaction();
+        await createdReview.save({ session: sess });
+        user.reviews.push(createdReview);
+        await user.save({ session: sess});
+        await sess.commitTransaction();
     }catch(err){
         const error = new HttpError(
            'Creating Review failed, please try again', 500 
