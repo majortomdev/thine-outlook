@@ -54,6 +54,13 @@ const getReviewsByUserId = async (req, res, next) => {
     res.json({reviews: reviews.map(review => review.toObject({ getters: true}))});
 };
 
+
+
+
+///////////////////////////////////////////////////////////////////////
+
+
+
 async function createReview(req, res, next) {
     const errors = validationResult(req);
     if(!errors.isEmpty()){
@@ -147,16 +154,35 @@ const deleteReview = async (req, res, next) => {
     
     let review;
     try {
-        review = await Review.findById(reviewId);
+        review = await Review.findById(reviewId).populate('reviewer');
     } catch (err) {
         const error = new HttpError(
             'Something went bad, couldnt delete review.',500
         );
         return next(error);
     }
-    console.log(review.title);
+    if(!review){
+        const error = new HttpError(
+            'Could not find a review for this id',404
+        );
+        return next(error);
+    }
+
     try {
-        await Review.deleteOne(review);
+        //await Review.deleteOne(review);
+
+        const sess = await mongoose.startSession();
+        sess.startTransaction();
+        //await review.remove({ session: sess });
+        await Review.deleteOne(review,{ session: sess });
+        review.reviewer.reviews.pull(review);
+        await review.reviewer.save({session: sess});
+        await sess.commitTransaction();
+
+
+
+
+
     } catch (err) {
         const error = new HttpError(
             'Something went bad, couldnt remove review.',500
