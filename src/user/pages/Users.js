@@ -7,7 +7,7 @@ const Users = () => {
         return users;
     }
      useEffect(() => {
-         fetch('http://localhost:8080/users',{
+         fetch('http://localhost:5000/users',{
             method: "GET",
             mode: "cors"
         })

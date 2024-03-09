@@ -10,6 +10,15 @@ const app = express();
 
 app.use(bodyParser.json());
 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader(
+        'Access-Control-Allow-Headers', 
+        'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+    next();
+})
+
 app.use('/api/reviews', reviewsRoutes); //   /api/reviews/....
 app.use('/api/users', usersRoutes);
 
@@ -30,7 +39,8 @@ app.use((error, req, res, next) => {
 
 //this connect returns a PROMISE bcos it is an ASYNCHRONOUS task 
 mongoose
-    .connect('mongodb+srv://JosephK:N_E_T_25@restaurant-reviews.ebyxhbl.mongodb.net/reviews?retryWrites=true&w=majority&appName=restaurant-reviews')
+    //.connect('mongodb+srv://JosephK:N_E_T_25@restaurant-reviews.ebyxhbl.mongodb.net/reviews?retryWrites=true&w=majority&appName=restaurant-reviews')
+    .connect('mongodb+srv://JosephK:N_E_T_25@majortomdev.ebyxhbl.mongodb.net/yumdb?retryWrites=true&w=majority')
     .then(() => {
         app.listen(5000);
     })

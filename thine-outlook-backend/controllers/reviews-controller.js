@@ -43,7 +43,7 @@ const getReviewsByUserId = async (req, res, next) => {
             return next(error);
     }
 
-
+    //if(!reviews || reviews.length ===0) {
     if(!userWithReviews || userWithReviews.reviews.length === 0){
         return next(
             new HttpError('Could not find reviews for given id', 404)

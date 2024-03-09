@@ -47,39 +47,34 @@ const Auth = () => {
         setIsLoginMode(prevMode => !prevMode);
     }
 
-    const authSubmitHandler = event => {
+    const authSubmitHandler = async event => {
         event.preventDefault();
-        console.log(formState.inputs);
 
+        if(isLoginMode){
 
-        (async () => {
-            const rawResponse = await fetch('http://localhost/users/add', {
-              method: 'POST',
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                //'Access-Control-Allow-Origin': '*',
-                'Access-Control-Request-Headers': '*'
-              },
-              body: JSON.stringify({eMail: formState.inputs.email, 
-                userName: formState.inputs.name, imageUrl: formState.inputs.image, 
-                password: formState.inputs.password})
-            });
+        } else {
+            try {
+                const response = await fetch('http://localhost:5000/api/users/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        //'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Request-Headers': '*'
+                         },
+                         body: JSON.stringify({
+                            userName: formState.inputs.name.value,
+                            email: formState.inputs.email.value,
+                            password: formState.inputs.password.value
+                         })
+                });
 
-            // body: ({eMail: formState.inputs.email, 
-            //     userName: formState.inputs.name, imageUrl: formState.inputs.image, 
-            //     password: formState.inputs.password})
-            // });
-
-            const content = await rawResponse.json();
-          
-            console.log(content);
-          })();
-
-
-
-
-
+                const responseData = await response.json();
+                console.log(responseData);
+            } catch (err) {
+                console.log(err)
+            }
+        }
 
 
 
