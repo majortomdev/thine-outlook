@@ -55,12 +55,38 @@ const Auth = () => {
 
     const authSubmitHandler = async event => {
         event.preventDefault();
-console.log("ffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        if(isLoginMode){
 
+        setIsLoading(true);
+
+        if(isLoginMode){
+            try {
+                const response = await fetch('http://localhost:5000/api/users/login', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        //'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Request-Headers': '*'
+                         },
+                         body: JSON.stringify({
+                            email: formState.inputs.email.value,
+                            password: formState.inputs.password.value
+                         })
+                });
+
+                const responseData = await response.json();
+                if (!response.ok){
+                    throw new Error(responseData.message);
+                }
+                setIsLoading(false);
+                auth.login();
+            } catch (err) {
+                console.log(err);
+                setIsLoading(false);
+                setError(err.message  || "Something went wrong, please try again.");
+            }
         } else {
             try {
-                setIsLoading(true);
                 const response = await fetch('http://localhost:5000/api/users/signup', {
                     method: 'POST',
                     headers: {
@@ -80,7 +106,6 @@ console.log("ffffffffffffffffffffffffffffffffffffffffffffffffffff");
                 if (!response.ok){
                     throw new Error(responseData.message);
                 }
-                console.log(responseData);
                 setIsLoading(false);
                 auth.login();
             } catch (err) {
