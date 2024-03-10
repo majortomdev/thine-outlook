@@ -55,7 +55,7 @@ const Auth = () => {
 
     const authSubmitHandler = async event => {
         event.preventDefault();
-
+console.log("ffffffffffffffffffffffffffffffffffffffffffffffffffff");
         if(isLoginMode){
 
         } else {
@@ -77,19 +77,27 @@ const Auth = () => {
                 });
 
                 const responseData = await response.json();
+                if (!response.ok){
+                    throw new Error(responseData.message);
+                }
                 console.log(responseData);
                 setIsLoading(false);
                 auth.login();
             } catch (err) {
                 console.log(err);
                 setIsLoading(false);
-                setError(err.massage  || "Something went wrong, please try again.");
+                setError(err.message  || "Something went wrong, please try again.");
             }
         }
         
     }
 
+    const errorHandler = () => {
+        setError(null);
+    }
   return (
+    <React.Fragment>
+    <ErrorModal error={error} onClear={errorHandler}/>
     <Card className="authentication">
         {isLoading && <LoadingSpinner asOverlay />}
         <h2>Login required</h2>
@@ -128,7 +136,8 @@ const Auth = () => {
          {isLoginMode? 'SIiggGN UP': 'LOGggIN'}
         </Button>
         </Card>
+        </React.Fragment>
   )
 }
 
-export default Auth
+export default Auth;
