@@ -5,25 +5,27 @@ import Card from "../../shared/components/UIElements/Card";
 import './UsersList.css';
 
 const UsersList = props => {
+    console.log("items LENGTH =========="+props.items.length);
     if(props.items.length ===0){
-        return (<div className="center">
-            <Card>
-            <h2>No users. found.</h2>
-            </Card>
-        </div>
+        return (
+            <div className="center">
+                <Card>
+                <h2>No users found.</h2>
+                </Card>
+            </div>
         );
     }
-
     return (
         <ul className="users-list">
 
             {props.items.map(user => (
              <UserItem 
-             key={user.id} 
-             id={user.id} 
-             image={user.imageUrl} 
-             name={user.userName} 
-             reviewCount={0}/>
+                key={user.id} 
+                id={user.id}
+                email={user.email} 
+                image={user.imageUrl} 
+                name={user.userName} 
+                reviewCount={user.reviews.length}/>
             ))}
 
         </ul>

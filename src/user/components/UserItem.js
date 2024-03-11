@@ -15,6 +15,7 @@ const UserItem = props => {
                     </div>
                     <div className="user-item__info">
                         <h2>{props.name}</h2>
+                        <h4>{props.email}</h4>
                         <h3>{props.reviewCount} {props.reviewCount === 1 ? 'Review': 'Reviews'}</h3>
                     </div>
                     </Link>
