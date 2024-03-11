@@ -24,7 +24,7 @@ const newUserSignUp = async (req, res, next) => {
             'Invalid or missing inputs prevented registration', 422));
     }
 
-    const { email, userName, password } = req.body;
+    const { email, image, userName, password } = req.body;
     let existingUser;
     try {
         existingUser = await User.findOne({ email: email});
@@ -45,12 +45,14 @@ const newUserSignUp = async (req, res, next) => {
     const newlyCreatedUser = new User({
         userName,
         email,
+        image,
         password,
         reviews: []
     });
 
     try{
         await newlyCreatedUser.save();
+        console.log(newlyCreatedUser);
     }catch(err){
         const error = new HttpError(
            'Signup failed, please try again', 500 
