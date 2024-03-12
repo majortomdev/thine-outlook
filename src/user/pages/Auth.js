@@ -9,7 +9,7 @@ import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } 
         from '../../shared/util/validators';
 import { useForm } from '../../shared/hooks/form-hook';
-import { useHttpClient } from '../../shared/hooks/http-hook';
+
 import { AuthContext } from '../../shared/context/auth-context';
 
 import './Auth.css';
@@ -18,7 +18,8 @@ const Auth = () => {
     const auth = useContext(AuthContext);
 
     const [ isLoginMode, setIsLoginMode ] = useState(true);
-    const { isLoading, error, sendRequest, clearError } = useHttpClient();
+    const [ isLoading, setIsLoading ] = useState(false);
+    const [ error, setError ] = useState();
 
     const [formState, inputHandler, setFormData] = useForm({
         email: {
@@ -55,9 +56,11 @@ const Auth = () => {
     const authSubmitHandler = async event => {
         event.preventDefault();
 
+        setIsLoading(true);
+
         if(isLoginMode){
             try {
-                const responseData = await sendRequest(
+                await sendRequest(
                     'http://localhost:5000/api/users/login',
                     'POST',
                     JSON.stringify({
@@ -68,11 +71,11 @@ const Auth = () => {
                             'Content-Type': 'application/json'
                         }
                 );
-                auth.login(responseData.user.id); 
+                auth.login(); 
             } catch (err) {}
         } else {
             try {
-                const responseData = await sendRequest(
+                await sendRequest(
                     'http://localhost:5000/api/users/signup',
                     'POST',
                     JSON.stringify({
@@ -86,14 +89,14 @@ const Auth = () => {
                     },
 
                 );
-                auth.login(responseData.newlyCreatedUser.id);
+                auth.login();
             } catch (err) {}
         }    
     };
 
   return (
     <React.Fragment>
-    <ErrorModal error={error} onClear={clearError}/>
+    <ErrorModal error={error} onClear={errorHandler}/>
     <Card className="authentication">
         {isLoading && <LoadingSpinner asOverlay />}
         <h2>Login required</h2>
