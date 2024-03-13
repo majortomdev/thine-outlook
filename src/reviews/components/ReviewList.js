@@ -24,7 +24,9 @@ const ReviewList = props => {
             id={review.id} 
             image={review.imageUrl}
             title={review.title}
-            review={review.review} 
+            //review={review.review} 
+            content={review.content}
+            description={review.description} 
             reviewerId={review.reviewer}
         />
         ))}

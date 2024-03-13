@@ -46,7 +46,9 @@ const ReviewItem = props => {
                 </div>
                 <div className="review-item__info">
                     <h2>{props.title}</h2>
-                    <p>{props.review}</p>
+                    <p>{props.description}</p>
+                    {/* <p>{props.review}</p> */}
+                    <p>{props.content}</p>
                 </div>
                 <div className="review-item__actions">
                 {auth.isLoggedIn && <Button to={`/reviews/${props.id}`}>EDIT</Button>}
