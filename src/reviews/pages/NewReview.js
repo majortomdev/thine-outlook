@@ -34,7 +34,6 @@ const NewReview = () => {
 
     const reviewSubmitHandler = async event => {
         event.preventDefault();
-        console.log("sssssssss"+formState.inputs);//send to EP.
 
         try {
             await sendRequest(
@@ -68,24 +67,24 @@ const NewReview = () => {
                 onInput={inputHandler}
             />
             <Input 
-                id="review"
+                id="content"
                 element="textarea"
-                label="Review" 
+                label="Content" 
                 validators= {[VALIDATOR_MINLENGTH(5)]} 
                 errorText= "Please enter a valid reviewwww.At least 100 characters"
                 onInput={inputHandler}
             />
             <Input 
-                id="information"
+                id="description"
                 element="input"
-                label="Information" 
+                label="Description" 
                 validators= {[VALIDATOR_REQUIRE()]} 
                 errorText= "Please enter associated information"
                 onInput={inputHandler}
             />
             <Button type="submit" 
-             //disabled={!formState.isValid}>Add new Reviiew
-                >Add new Reviiew
+             disabled={!formState.isValid}>Add new Reviiew
+                {/* </form>>Add new Reviiew */}
             </Button>
         </form>
         </React.Fragment>
