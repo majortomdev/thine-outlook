@@ -21,7 +21,7 @@ router.post('/',
 reviewsController.createReview);
 
 router.patch('/:rid', [
-    check('description').isLength({min: 12}),
+    check('title').isLength({min: 12}),
     check('content').isLength({min: 25})
 ], reviewsController.updateReview);
 

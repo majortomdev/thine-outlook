@@ -8,6 +8,7 @@ const User = require('../models/user');
 
 
 const getReviewById = async (req, res, next) => {
+    
     const reviewId = req.params.rid;
     let review;
     try {
@@ -30,7 +31,7 @@ const getReviewById = async (req, res, next) => {
 
 const getReviewsByUserId = async (req, res, next) => {
     const userId = req.params.uid;
-    console.log(userId);
+    console.log("grbuid:  "+userId);
     //let reviews;
     let userWithReviews; 
 
@@ -110,7 +111,7 @@ const updateReview = async (req, res, next) => {
             'Invalid or missing entries prevented Review update', 422));
     }
 
-    const { description, content } = req.body;
+    const { title, content } = req.body;
     const reviewId = req.params.rid;
 
     let review;
@@ -124,7 +125,7 @@ const updateReview = async (req, res, next) => {
     }
 
 
-    review.description = description;
+    review.title = title;
     review.content = content;
 
     try {
