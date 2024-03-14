@@ -28,6 +28,7 @@ const ReviewList = props => {
             content={review.content}
             description={review.description} 
             reviewerId={review.reviewer}
+            onDelete={props.onDeleteReview}
         />
         ))}
     </ul>

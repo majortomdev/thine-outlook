@@ -3,10 +3,14 @@ import React, { useState, useContext } from "react";
 import  Card   from "../../shared/components/UIElements/Card";
 import Button from "../../shared/components/FormElements/Button";
 import Modal from "../../shared/components/UIElements/Modal";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { AuthContext } from "../../shared/context/auth-context";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 import './ReviewItem.css';
 
 const ReviewItem = props => {
+    const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const auth = useContext(AuthContext);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     
@@ -17,14 +21,35 @@ const ReviewItem = props => {
     const cancelDeleteHandler = () => {
         setShowConfirmModal(false);
     }
-    const confirmDeleteHandler = () => {
+    const confirmDeleteHandler = async () => {
         setShowConfirmModal(false);
         console.log('DELETING....');
+
+
+        try {
+            await sendRequest(
+              `http://localhost:5000/api/reviews/${props.id}`,
+              'DELETE'
+            );
+            props.onDelete(props.id);
+            //history.push('/' + auth.userId + '/reviews');
+          } catch (err) {}
+
+
+
+
+
+
+
+
+
+
+
     }
 
     return (
         <React.Fragment>
-
+        <ErrorModal error={error} onClear={clearError} />
         <Modal 
             show={showConfirmModal}
             onCancel={cancelDeleteHandler}
@@ -41,6 +66,7 @@ const ReviewItem = props => {
         </Modal>
         <li className="review-item">
         <Card className="review-item__content">
+            {isLoading && <LoadingSpinner asOverlay />}
             <div className="review-item__image">
                 <img src={props.image} alt={props.title} />
             </div>

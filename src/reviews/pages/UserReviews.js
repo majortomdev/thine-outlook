@@ -22,6 +22,11 @@ const  UserReviews = () => {
         fetchReviews();
     }, [sendRequest, userId]);
     
+    const reviewDeletedHandler = deletedReviewId => {
+        setLoadedReviews(prevReviews => prevReviews.filter(
+            review => review.id !== deletedReviewId
+        ));
+    };
 
     return (
         <React.Fragment>
@@ -30,7 +35,9 @@ const  UserReviews = () => {
                 <div className="center">
                     <LoadingSpinner />
                 </div>)}
-            {!isLoading && loadedReviews &&<ReviewList items={loadedReviews}/>}
+            {!isLoading && loadedReviews &&
+            <ReviewList items={loadedReviews} 
+            onDeleteReview={reviewDeletedHandler}/>}
         </React.Fragment>
     );
 };
