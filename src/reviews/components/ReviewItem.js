@@ -35,16 +35,6 @@ const ReviewItem = props => {
             //history.push('/' + auth.userId + '/reviews');
           } catch (err) {}
 
-
-
-
-
-
-
-
-
-
-
     }
 
     return (
@@ -77,34 +67,16 @@ const ReviewItem = props => {
                 <p>{props.content}</p>
             </div>
             <div className="review-item__actions">
-            {auth.isLoggedIn && <Button to={`/reviews/${props.id}`}>EDIT</Button>}
+            {auth.userId === props.reviewerId && <Button to={`/reviews/${props.id}`}>EDIT</Button>}
             {/* {auth.isLoggedIn && <Button to={`/api/reviews/${auth.userId}`}>EDIT</Button>} */}
-            {auth.isLoggedIn && <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>}
+            {auth.userId === props.reviewerId && <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>}
             </div>
         </Card>
         </li>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 </React.Fragment>
 );
-
-
-
-
-
 
 };
 
