@@ -8,7 +8,8 @@ const userSchema = new Schema({
     //id: { type: String, required: true},
     email: { type: String, required: true, unique: true},
     image: { type: String},
-    userName: { type: String, required: true},
+    //userName: { type: String, required: true},
+    name: { type: String, required: true},
     password: { type: String, required: true, minlength: 8},
     reviews: [{ type: mongoose.Types.ObjectId, required: true, ref: 'Review' }]
 });

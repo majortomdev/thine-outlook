@@ -23,7 +23,8 @@ const UsersList = props => {
                 id={user.id}
                 email={user.email} 
                 image={user.image} 
-                name={user.userName} 
+                // name={user.userName} 
+                name={user.name} 
                 reviewCount={user.reviews.length}/>
             ))}
 

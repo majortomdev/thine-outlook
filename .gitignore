@@ -6,6 +6,8 @@
 .pnp.js
 /thine-outlook-backend/node_modules
 
+/thine-outlook-backend/uploads/images
+
 # testing
 /coverage
 

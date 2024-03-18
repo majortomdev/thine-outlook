@@ -14,7 +14,8 @@ router.post('/signup',
     fileUpload.single('image'),
     [
     check('email').normalizeEmail().isEmail(),
-    check('userName').not().isEmpty(),
+    //check('userName').not().isEmpty(),
+    check('name').not().isEmpty(),
     check('password').isLength({min: 6})
 ], 
 usersController.newUserSignUp);
