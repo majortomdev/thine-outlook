@@ -83,12 +83,12 @@ const NewReview = () => {
                 errorText= "Please enter associated information"
                 onInput={inputHandler}
             />
-            <ImageUpload 
+            <ImageUpload
                 id="image" 
                 onInput={inputHandler}
-                errorText="Please provide an image."
+                errorText="Please providee an image."
                 />
-            <Button type="submit" 
+            <Button  type="submit" 
              disabled={!formState.isValid}>Add new Reviiew
                 {/* </form>>Add new Reviiew */}
             </Button>
