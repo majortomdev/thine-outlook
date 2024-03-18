@@ -5,6 +5,7 @@ import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import ImageUpload from "../../shared/components/FormElements/ImageUpload";
 import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE 
             } from '../../shared/util/validators';
 import { useForm } from "../../shared/hooks/form-hook";
@@ -27,6 +28,10 @@ const NewReview = () => {
         description: {
             value: '',
             isValid: false
+        },
+        image: {
+            value: null,
+            isValid: false
         }
     }, false );
 
@@ -36,17 +41,13 @@ const NewReview = () => {
         event.preventDefault();
 
         try {
-            await sendRequest(
-                'http://localhost:5000/api/reviews',
-                'POST',
-                JSON.stringify({
-                    title: formState.inputs.title.value, 
-                    description: formState.inputs.description.value, 
-                    content: formState.inputs.content.value, 
-                    reviewer: auth.userId
-                }),
-                {'Content-Type': 'Application/json'}
-            );
+            const formData = new FormData();
+            formData.append('title',formState.inputs.title.value);
+            formData.append('description',formState.inputs.description.value);
+            formData.append('content',formState.inputs.content.value);
+            formData.append('reviewer',auth.userId);
+            formData.append('image',formState.inputs.image.value);
+            await sendRequest('http://localhost:5000/api/reviews','POST',formData);
             //redirect user to new page
             history.push('/');
         } catch (err) {}
@@ -82,6 +83,11 @@ const NewReview = () => {
                 errorText= "Please enter associated information"
                 onInput={inputHandler}
             />
+            <ImageUpload 
+                id="image" 
+                onInput={inputHandler}
+                errorText="Please provide an image."
+                />
             <Button type="submit" 
              disabled={!formState.isValid}>Add new Reviiew
                 {/* </form>>Add new Reviiew */}

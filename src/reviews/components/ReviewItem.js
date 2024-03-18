@@ -58,7 +58,7 @@ const ReviewItem = props => {
         <Card className="review-item__content">
             {isLoading && <LoadingSpinner asOverlay />}
             <div className="review-item__image">
-                <img src={props.image} alt={props.title} />
+                <img src={`http://localhost:5000/${props.image}`} alt={props.title} />
             </div>
             <div className="review-item__info">
                 <h2>{props.title}</h2>

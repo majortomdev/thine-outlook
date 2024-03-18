@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const uuidV4 = require('uuid').v4;
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
@@ -56,9 +58,8 @@ const getReviewsByUserId = async (req, res, next) => {
 
 async function createReview(req, res, next) {
     const errors = validationResult(req);
-    console.log("reviews-controller(b/e):   "+req.body);
+    //console.log("reviews-controller(b/e):   "+req.body);
     if(!errors.isEmpty()){
-        console.log(errors);
         throw new HttpError('Invalid or missing inputs prevented Review creation', 422);
     }
 
@@ -67,6 +68,7 @@ async function createReview(req, res, next) {
         title,
         description,
         content,
+        image: req.file.path,
         reviewer
     });
 
@@ -159,9 +161,9 @@ const deleteReview = async (req, res, next) => {
         return next(error);
     }
 
-    try {
-        //await Review.deleteOne(review);
+    const imagePath = review.image;
 
+    try {
         const sess = await mongoose.startSession();
         sess.startTransaction();
         //await review.remove({ session: sess });
@@ -170,16 +172,17 @@ const deleteReview = async (req, res, next) => {
         await review.reviewer.save({session: sess});
         await sess.commitTransaction();
 
-
-
-
-
     } catch (err) {
         const error = new HttpError(
             'Something went bad, couldnt remove review.',500
         );
         return next(error);
     }
+
+    fs.unlink(imagePath, err => {
+        console.log(err);
+    });
+
     res.status(200).json({message: "Review '"+reviewId +"' successfully deleted."});
 };
 

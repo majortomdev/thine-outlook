@@ -22,9 +22,8 @@ const ReviewList = props => {
         <ReviewItem 
             key={review.id} 
             id={review.id} 
-            image={review.imageUrl}
+            image={review.image}
             title={review.title}
-            //review={review.review} 
             content={review.content}
             description={review.description} 
             reviewerId={review.reviewer}

@@ -2,6 +2,7 @@ const express = require('express');
 const { check } = require('express-validator');
 
 const reviewsController = require('../controllers/reviews-controller');
+const fileUpload = require('../middleware/file-upload');
 
 const router = express.Router();
 
@@ -12,12 +13,13 @@ router.get('/:rid', reviewsController.getReviewById);
 router.get('/user/:uid', reviewsController.getReviewsByUserId);
 
 router.post('/',
- [
-    check('title').not().isEmpty(),
-    check('description').isLength({min: 12}),
-    check('reviewer').not().isEmpty(),
-    check('content').isLength({min: 25})
-], 
+    fileUpload.single('image'),
+    [
+        check('title').not().isEmpty(),
+        check('description').isLength({min: 12}),
+        check('reviewer').not().isEmpty(),
+        check('content').isLength({min: 25})
+    ], 
 reviewsController.createReview);
 
 router.patch('/:rid', [
