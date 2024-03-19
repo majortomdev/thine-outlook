@@ -58,7 +58,6 @@ const getReviewsByUserId = async (req, res, next) => {
 
 async function createReview(req, res, next) {
     const errors = validationResult(req);
-    //console.log("reviews-controller(b/e):   "+req.body);
     if(!errors.isEmpty()){
         throw new HttpError('Invalid or missing inputs prevented Review creation', 422);
     }

@@ -47,7 +47,9 @@ const NewReview = () => {
             formData.append('content',formState.inputs.content.value);
             formData.append('reviewer',auth.userId);
             formData.append('image',formState.inputs.image.value);
-            await sendRequest('http://localhost:5000/api/reviews','POST',formData);
+            await sendRequest('http://localhost:5000/api/reviews','POST',formData, {
+                Authorization: 'Bearer '+ auth.token
+            });
             //redirect user to new page
             history.push('/');
         } catch (err) {}
