@@ -3,6 +3,7 @@ const { check } = require('express-validator');
 
 const reviewsController = require('../controllers/reviews-controller');
 const fileUpload = require('../middleware/file-upload');
+const checkAuth = require('../middleware/check-auth');
 
 const router = express.Router();
 
@@ -11,6 +12,8 @@ const router = express.Router();
 router.get('/:rid', reviewsController.getReviewById);
 
 router.get('/user/:uid', reviewsController.getReviewsByUserId);
+
+router.use(checkAuth);
 
 router.post('/',
     fileUpload.single('image'),
