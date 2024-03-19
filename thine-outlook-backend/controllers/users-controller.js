@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const HttpError = require('../models/http-error');
 const User = require('../models/user');
@@ -71,7 +72,28 @@ const newUserSignUp = async (req, res, next) => {
         );
         return next(error);
     }
-    res.status(201).json({newlyCreatedUser: newlyCreatedUser.toObject({ getters: true })});
+
+    let token;
+    try {
+        token = jwt.sign(
+            {userId: newlyCreatedUser.id, email:newlyCreatedUser.email },
+            'topsecret_not_public',
+            {expiresIn: '1h',}//optional 3rd param for CONFIG
+        );
+    } catch (err) {
+        const error = new HttpError(
+            'Signup failed, please try again', 500 
+         );
+         return next(error);
+    }
+
+    res.status(201).json(
+        {
+            userId: newlyCreatedUser.id, 
+            email: newlyCreatedUser.email,
+            token:token
+        });
+    
 };
 
 const login = async (req, res, next) => {
@@ -98,13 +120,38 @@ const login = async (req, res, next) => {
     try {
         isValidPassword = await bcrypt.compare(password, existingUser.password);
     } catch (err) {
-        
+        const error = new HttpError(
+            'Could not log you in at all, please try again.',
+            500
+        );
+        return next(error);
     }
-    
+    if (!isValidPassword) {
+        const error = new HttpError(
+            'Invalid credentials, could not log you in.',
+            401
+        );
+        return next(error);
+    }
+
+    let token;
+    try {
+        token = jwt.sign(
+            {userId: existingUser.id, email:existingUser.email },
+            'topsecret_not_public',
+            {expiresIn: '1h',} 
+        );
+    } catch (err) {
+        const error = new HttpError(
+            'Login failed, please try again', 500 
+         );
+         return next(error);
+    }
 
     res.json({
-        message: 'Logged in!', 
-        user: existingUser.toObject({getters:true})
+        userId: existingUser.id,
+        email: existingUser.email,
+        token: token
     });
 };
 
