@@ -125,6 +125,13 @@ const updateReview = async (req, res, next) => {
         return next(error);
     }
 
+    if(review.reviewer.toString() !== req.userData.userId) {
+        const error = new HttpError(
+            'You are not authorised to edit this.',401
+        );
+        return next(error);
+    }
+
 
     review.title = title;
     review.content = content;
@@ -153,9 +160,17 @@ const deleteReview = async (req, res, next) => {
         );
         return next(error);
     }
+
     if(!review){
         const error = new HttpError(
             'Could not find a review for this id',404
+        );
+        return next(error);
+    }
+
+    if(review.reviewer.id !== req.userData.userId){
+        const error = new HttpError(
+            'You are not authorised to delete this.',401
         );
         return next(error);
     }
