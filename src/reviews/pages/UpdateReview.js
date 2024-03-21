@@ -34,7 +34,7 @@ const UpdateReview = () => {
       const fetchReview = async () => {
         try {
           const responseData = await sendRequest(
-            `http://localhost:5000/api/reviews/${reviewId}`);
+            process.env.REACT_APP_BACKEND_URL+`/reviews/${reviewId}`);
             setLoadedReview(responseData.review);
             setFormData({
               title: {
@@ -56,7 +56,7 @@ const UpdateReview = () => {
         event.preventDefault();
         try {
           await sendRequest(
-            `http://localhost:5000/api/reviews/${reviewId}`,
+            process.env.REACT_APP_BACKEND_URL+`/reviews/${reviewId}`,
             'PATCH',
             JSON.stringify({
               title: formState.inputs.title.value,

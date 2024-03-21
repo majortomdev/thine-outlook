@@ -28,7 +28,7 @@ const ReviewItem = props => {
 
         try {
             await sendRequest(
-              `http://localhost:5000/api/reviews/${props.id}`,
+              process.env.REACT_APP_BACKEND_URL+`/reviews/${props.id}`,
               'DELETE',
               null,
               {
@@ -62,7 +62,8 @@ const ReviewItem = props => {
         <Card className="review-item__content">
             {isLoading && <LoadingSpinner asOverlay />}
             <div className="review-item__image">
-                <img src={`http://localhost:5000/${props.image}`} alt={props.title} />
+                <img src={`${process.env.REACT_APP_ASSET_URL}/${props.image}`} 
+                alt={props.title} />
             </div>
             <div className="review-item__info">
                 <h2>{props.title}</h2>
