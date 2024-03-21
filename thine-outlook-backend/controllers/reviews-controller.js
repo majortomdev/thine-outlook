@@ -53,7 +53,11 @@ const getReviewsByUserId = async (req, res, next) => {
             );
     }
     //res.json({reviews});....below tweak gives me the id field without the leading _ on the key
-    res.json({reviews: userWithReviews.reviews.map(review => review.toObject({ getters: true}))});
+    res.json({
+        reviews: userWithReviews.reviews.map(review => 
+            review.toObject({ getters: true})
+            )
+        });
 };
 
 async function createReview(req, res, next) {
@@ -61,8 +65,7 @@ async function createReview(req, res, next) {
     if(!errors.isEmpty()){
         throw new HttpError('Invalid or missing inputs prevented Review creation', 422);
     }
-
-    const { title, description, content, reviewer } = req.body; //const title = req.body.title  etc....obj destructuring short for this
+    const { title, description, content, reviewer} = req.body; //const title = req.body.title  etc....obj destructuring short for this
     const createdReview = new Review({
         title,
         description,

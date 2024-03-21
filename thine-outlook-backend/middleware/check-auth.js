@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
             throw new Error('Authentication faileeed');
         }
         const decodedToken = jwt.verify(token, 'topsecret_not_public');
-        req.userData ={userId: decodedToken.userId}
+        req.userData ={userId: decodedToken.userId};
         next();
     } catch (err) {
         const error = new HttpError('Authentication faiiiiiled', 403);

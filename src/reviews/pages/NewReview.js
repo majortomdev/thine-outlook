@@ -50,7 +50,6 @@ const NewReview = () => {
             await sendRequest('http://localhost:5000/api/reviews','POST',formData, {
                 Authorization: 'Bearer '+ auth.token
             });
-            //redirect user to new page
             history.push('/');
         } catch (err) {}
     };
@@ -80,8 +79,8 @@ const NewReview = () => {
             <Input 
                 id="description"
                 element="input"
-                label="Description" 
-                validators= {[VALIDATOR_REQUIRE()]} 
+                label="Description"
+                validators= {[VALIDATOR_REQUIRE()]}
                 errorText= "Please enter associated information"
                 onInput={inputHandler}
             />
