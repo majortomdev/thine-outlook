@@ -50,7 +50,7 @@ app.use((error, req, res, next) => {
 //this connect returns a PROMISE bcos it is an ASYNCHRONOUS task 
 mongoose
     //.connect('mongodb+srv://JosephK:N_E_T_25@restaurant-reviews.ebyxhbl.mongodb.net/reviews?retryWrites=true&w=majority&appName=restaurant-reviews')
-    .connect('mongodb+srv://JosephK:N_E_T_25@majortomdev.ebyxhbl.mongodb.net/yumdb?retryWrites=true&w=majority')
+    .connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@majortomdev.ebyxhbl.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`)
     .then(() => {
         app.listen(5000);
     })

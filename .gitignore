@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 /thine-outlook-backend/node_modules
+/thine-outlook-backend/nodemon.json
 
 /thine-outlook-backend/uploads/images
 

@@ -77,7 +77,7 @@ const newUserSignUp = async (req, res, next) => {
     try {
         token = jwt.sign(
             {userId: newlyCreatedUser.id, email:newlyCreatedUser.email },
-            'topsecret_not_public',
+            process.env.JWT_KEY,
             {expiresIn: '1h',}//optional 3rd param for CONFIG
         );
     } catch (err) {
@@ -138,7 +138,7 @@ const login = async (req, res, next) => {
     try {
         token = jwt.sign(
             {userId: existingUser.id, email:existingUser.email },
-            'topsecret_not_public',
+            process.env.JWT_KEY,
             {expiresIn: '1h',} 
         );
     } catch (err) {
