@@ -33,8 +33,6 @@ const getReviewById = async (req, res, next) => {
 
 const getReviewsByUserId = async (req, res, next) => {
     const userId = req.params.uid;
-    console.log("grbuid:  "+userId);
-    //let reviews;
     let userWithReviews; 
 
     try {
